@@ -257,4 +257,90 @@ def exp2(list)\
     list.drop(1)\
     \
     \
-#########}
+#########\
+K-FACTORIZATION\
+\
+# Enter your code here. Read input from STDIN. Print output to STDOUT\
+n, k = gets.chomp.split(' ').map(&:to_i)\
+list = gets.chomp.split(' ').map(&:to_i).sort\
+\
+class Fact\
+    def initialize\
+        @store = []\
+    end\
+    \
+    def k_fact(n, list, curr = 1, results = Array.new(1)\{1\})\
+        p curr\
+        list = list.reject\{ |el| n % el != 0 \}\
+        unless curr == 1\
+            list = list.reject\{ |el| el < curr && curr % el != 0 \}\
+        end\
+        @store << results if curr == n\
+        \
+        return -1 if curr > n\
+        list.each do |i|\
+            temp_results = results.dup\
+            temp_curr = curr\
+            temp_curr *= i\
+\
+            break if temp_curr > n\
+            temp_results << temp_curr\
+\
+            k_fact(n, list, temp_curr, temp_results).flatten.uniq\
+\
+        end\
+        @store.empty? ? [[-1]] : @store\
+    end\
+    \
+    def k2(n, list, curr = n, results = Array.new(1)\{n\})\
+        @store << results if curr == 1\
+        list.each do |i|\
+           \
+            temp_curr = curr\
+            \
+            temp_results = results.dup\
+            temp_curr /= i\
+            \
+            temp_results.unshift(temp_curr) \
+            k2(n, list.reject\{ |el| temp_curr / el < 1 \}, temp_curr, temp_results)\
+            \
+        end\
+        @store.empty? ? [[-1]] : @store    \
+    end\
+    \
+    def k3(n, list)\
+        results = []\
+        curr = n\
+        i = 0 \
+        #p list\
+        \
+        temp_list = list\
+        while i < temp_list.length\
+            #p i\
+            until curr % list[i] != 0\
+                \
+                #p "current before: #\{curr\}"\
+                #p "list_el: #\{list[i]\}"\
+                curr /= list[i] \
+                results << curr\
+                #p "current after: #\{curr\}"              \
+            end\
+            \
+               \
+            i += 1\
+        end\
+        results.unshift(n)\
+       \
+        results[-1] == 1 ? results.reverse : [-1]\
+    end\
+end\
+     \
+k = Fact.new\
+\
+# k.k_fact(n, list.reject\{ |el| n % el != 0 \}).sort_by(&:length)[0].each\{|el| print el.to_s + " "\}\
+\
+# k.k2(n, list.reverse.reject\{ |el| n % el != 0 \}).sort_by(&:length)[0].each\{|el| print el.to_s + " "\}\
+\
+k.k3(n, list.reverse.reject\{ |el| n % el != 0 \}).each\{|el| print el.to_s + " "\}\
+\
+###########}
