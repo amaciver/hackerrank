@@ -210,4 +210,51 @@ end\
 \
 \
 \
-#######}
+#######\
+ARITHMETIC EXPRESSIONS\
+\
+# Enter your code here. Read input from STDIN. Print output to STDOUT\
+n = gets.chomp.to_i\
+list = gets.strip.split(' ').map\{ |el| el.to_i \}\
+\
+\
+def exp(list, str = '', eval = nil, results = [])\
+    if eval != nil && eval % 101 == 0\
+        list.each do |el|\
+            str += "*"\
+            str += el.to_s\
+           # p 'loop'\
+        end\
+        return str\
+    end\
+    return str if eval != nil && eval % 101 == 0 && list.length == 0\
+    return nil if list.length == 0\
+    if str == ''\
+        eval = list[0]\
+        \
+        str += list[0].to_s\
+        list = list.drop(1)\
+    end\
+        \
+    operators = ['+', '-', '*']\
+    3.times do |i|\
+        temp_str = str\
+        \
+        temp_str += operators[i]\
+        temp_str += list[0].to_s\
+        temp_eval = eval.method(operators[i]).(list[0]) % 101\
+       \
+        results << exp(list[1..-1], temp_str, temp_eval, results)\
+        results = results.uniq\
+    end\
+    results.reject\{ |el| el.nil? \}.flatten[-1]\
+end\
+\
+puts exp(list)\
+\
+def exp2(list)\
+    results = Hash.new(list[0])\
+    list.drop(1)\
+    \
+    \
+#########}
