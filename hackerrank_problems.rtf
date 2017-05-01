@@ -1,0 +1,213 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1404\cocoasubrtf340
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 # Enter your code here. Read input from STDIN. Print output to STDOUT\
+x = gets.strip.to_i\
+n = gets.strip.to_i\
+\
+def power_sum(i = 1, x, n)\
+    return 1 if x == 0\
+    return 0 if x < 0\
+    count = 0\
+    (i..(Math.sqrt(x).to_i)).each do |i|\
+        count += power_sum(i + 1, x-i**n, n)\
+        \
+    end\
+    count\
+end\
+print power_sum(x, n)\
+            \
+\
+# Enter your code here. Read input from STDIN. Print output to STDOUTgrid\
+grid = []\
+10.times \{ grid << gets.strip \}\
+words = gets.chomp.split(';')\
+\
+def find_slots(grid)\
+    slots = []\
+    grid.each_with_index do |row, y|\
+        slot = []\
+        started = false\
+        row.chars.each_with_index do |sq, x|\
+            if sq == '-' && !started\
+                slot << [y,x] \
+                started = true\
+            elsif sq == '+' && started\
+                slots << slot if slot.length > 1\
+                slot = []\
+                started = false\
+            elsif sq == '-' && started\
+               slot << [y,x]\
+            else\
+                next\
+            end\
+        end\
+        slots << slot if slot.length > 1\
+    end\
+    \
+    x = 0\
+    while x < grid[0].length\
+        y = 0\
+        slot = []\
+        started = false\
+        while y < grid.length\
+            sq = grid[y][x]\
+            if sq == '-' && !started\
+                slot << [y,x] \
+                started = true\
+            elsif sq == '+' && started\
+                slots << slot if slot.length > 1\
+                slot = []\
+                started = false\
+            elsif sq == '-' && started\
+               slot << [y,x]\
+            else\
+                \
+            end\
+            y += 1\
+        end\
+        x += 1\
+        slots << slot if slot.length > 1\
+    end\
+    slots\
+end\
+\
+def find_int(slots)\
+    results = []\
+    i = 0\
+    while i < slots.length\
+        this = slots[i]\
+       \
+        j = i + 1\
+        while j < slots.length\
+            that = slots[j]\
+            results << (this & that)\
+            \
+            j += 1\
+        end\
+        i += 1\
+    end\
+    ints = results.reject\{ |el| el.empty? \}\
+    ints.each do |int|\
+        slots.each_with_index do |slot, idx|\
+            int << \{slot: idx, place: slot.index(int[0])\} if slot.index(int[0])\
+        end\
+    end\
+end\
+\
+def try_words(slots, ints, words)\
+    results = []\
+    slots.each_with_index do |slot, idx|\
+        words_of_length = words.select\{ |word| word.length == slot.length \}\
+        results << word \
+        words_of_length.each do |word|\
+            results << word if words_of_length.length == 1\
+            \
+        end\
+    end\
+    \
+    \
+end\
+            \
+            \
+            \
+        \
+def fill(grid, words, slots)\
+    \
+    return grid if grid.all?\{ |row| row.chars.none? \{ |sq| sq == '-'\} \}\
+    return nil if words.empty? || slots.empty?\
+    temp_grid = []\
+    slots.sort.each_with_index do |slot, idx1| #take each slot\
+        words.each do |word| #try each word\
+            temp_grid = grid.dup\
+\
+            if word.length == slot.length #if the slot is the right length\
+                \
+                entered = false\
+                slot.each_with_index do |coord, idx3| #copy the word into the slot if valid\
+                    y, x = coord\
+                    if temp_grid[y][x] == '-' || temp_grid[y][x] == word[idx3]\
+                        temp_grid[y][x] = word[idx3]\
+                        entered = true\
+\
+                    else\
+                        \
+                        temp_grid = grid.dup\
+                        entered = false\
+                        \
+                    end\
+                    break unless entered\
+                end\
+                if entered\
+                    new_slots = slots.reject\{|el| el == slot \} \
+                    new_words = words.reject\{|el| el == word \}\
+                    temp_grid = fill(temp_grid, new_words, new_slots)\
+                end\
+            end\
+        end\
+    end\
+    temp_grid\
+end\
+\
+slots = find_slots(grid)\
+ints = find_int(slots)\
+puts fill(grid, words, slots)\
+\
+\
+\
+######\
+\
+n, k = gets.chomp.split\
+k = k.to_i\
+\
+\
+\
+\
+def d_root(num)\
+    return num if num < 10\
+    sum = num.to_s.chars.map(&:to_i).inject(:+)\
+    return d_root(sum)\
+end\
+\
+def sum(n, k)\
+    d_root((d_root(n.to_i).to_s * k).to_i)\
+end\
+\
+p sum(n,k)\
+\
+\
+\
+######\
+\
+\
+t = gets.chomp.to_i\
+\
+def eval(words, login, str = '', list = [])\
+   \
+    words.each do |word|\
+        temp_list = list.dup\
+        temp_str = str\
+        temp_str += word\
+        next if temp_str.length > login.length\
+        next unless login.start_with?(temp_str)\
+        temp_list << word\
+        return temp_list.join(' ') if temp_str == login\
+        return eval(words, login, temp_str, temp_list) \
+    end\
+    return "WRONG PASSWORD"\
+end\
+     \
+\
+t.times do\
+    n = gets.chomp.to_i\
+    words = gets.chomp.split(" ")\
+    login = gets.chomp\
+    puts eval(words, login)\
+end\
+\
+\
+\
+#######}
