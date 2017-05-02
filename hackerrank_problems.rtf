@@ -343,4 +343,21 @@ k = Fact.new\
 \
 k.k3(n, list.reverse.reject\{ |el| n % el != 0 \}).each\{|el| print el.to_s + " "\}\
 \
-###########}
+###########\
+CUT STICKS\
+\
+n = gets.strip.to_i\
+arr = gets.strip\
+arr = arr.split(' ').map(&:to_i)\
+\
+until arr.length == 0\
+    min = arr.min\
+    arr.map! do |el|\
+        el -= min\
+    end\
+    puts arr.length\
+arr = arr.reject\{ |el| el < 1 \}\
+end\
+\
+\
+#######}
