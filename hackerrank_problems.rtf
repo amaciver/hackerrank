@@ -474,4 +474,27 @@ arr = gets.strip.split.map \{|i| i.to_i\}\
 insertionSort( arr )\
 \
 #######\
+INSERTION SORT 2\
+\
+def  insertionSort(arr) \
+   i = 1\
+    while i < arr.length\
+        idx = i\
+        val = arr[i]\
+        until idx == 0 || val > arr[idx-1]\
+            arr[idx] = arr[idx-1]\
+            idx -= 1\
+        end\
+        i += 1\
+        arr[idx] = val\
+        puts arr.map(&:to_s).join(" ")\
+    end\
+end\
+cnt = gets.to_i\
+arr = gets.strip.split(" ").map! \{|i| i.to_i\}\
+insertionSort(arr)\
+\
+######\
+\
+\
 }
