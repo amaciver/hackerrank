@@ -417,4 +417,38 @@ end\
 calc(arr)\
 \
 \
-########}
+########\
+\
+LARRY\'92S ARRAY \'97> relies on parity of the number of swaps\
+\
+t = gets.chomp.to_i\
+\
+def calc3(arr)\
+    sorted = false\
+    arr1 = arr.dup\
+    count = 0\
+    until sorted\
+        sorted = true\
+        i = 0\
+        while i < arr1.length - 1\
+            \
+            if arr1[i] > arr1[i+1]\
+                arr1[i], arr1[i+1] = arr1[i+1], arr1[i]\
+                count += 1\
+                sorted = false\
+            end\
+            i += 1\
+        end\
+    end\
+    \
+    count\
+end\
+\
+t.times do \
+    n = gets.chomp.to_i\
+    arr = gets.chomp.split(' ').map(&:to_i)\
+    \
+    r = calc3(arr)\
+   \
+    puts ((r % 2) == 0 ? "YES" : "NO")\
+end}
