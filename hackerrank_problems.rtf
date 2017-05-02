@@ -451,4 +451,27 @@ t.times do \
     r = calc3(arr)\
    \
     puts ((r % 2) == 0 ? "YES" : "NO")\
-end}
+end\
+\
+######\
+INSERTION SORT PART 1\
+\
+def  insertionSort( arr) \
+    idx = arr.length-1\
+    val = arr[idx]\
+    until idx == 0 || val > arr[idx-1]\
+        arr[idx] = arr[idx-1]\
+        puts arr.map(&:to_s).join(" ")\
+        \
+        idx -= 1\
+    end\
+    arr[idx] = val\
+    puts arr.map(&:to_s).join(" ")\
+end\
+count = gets.to_i\
+arr = gets.strip.split.map \{|i| i.to_i\}\
+\
+insertionSort( arr )\
+\
+#######\
+}
