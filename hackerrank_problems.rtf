@@ -495,6 +495,56 @@ arr = gets.strip.split(" ").map! \{|i| i.to_i\}\
 insertionSort(arr)\
 \
 ######\
+VERTICAL STICKS\
+\
+t = gets.chomp.to_i\
+\
+class V\
+    def initialize\
+        @store = \{\}\
+    end\
+    \
+    def calc(ys)\
+        all = []\
+        ys.permutation.each\{|perm| all << perm\}\
+        counts = []\
+        count = 0\
+        all.each do |perm|\
+            #p perm\
+            count = 0\
+            perm.each_with_index do |el, i|\
+                \
+                \
+                idx = i\
+               \
+                while idx > -1\
+                    count += 1\
+                    break if idx == 0\
+                    break if perm[idx - 1] >= el\
+                    idx -= 1\
+                end\
+                \
+            end\
+            #p count\
+            counts << count\
+        end\
+        (counts.inject(:+)/all.length.to_f).round(2)    \
+    end\
+end\
+\
+\
+t.times do\
+    n = gets.chomp.to_i\
+    ys = gets.chomp.split(' ').map(&:to_i)\
+    v = V.new\
+    ans = v.calc(ys)\
+    puts ("%.2f" % ans)\
+end\
+\
+##NOT DONE\
+#######\
+\
+\
 \
 \
 }
